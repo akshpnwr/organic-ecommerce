@@ -1,0 +1,27 @@
+.pagination .previous a {
+    background: #dbdada;
+    color: #a4a4a4;
+}
+
+.pagination .next a {
+    border: 1px solid #dbdada;
+}
+
+.pagination li a {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.pagination li a:hover {
+    border: 1px solid rgb(22 163 74);
+}
+
+.pagination .selected a {
+    background-color: rgb(22 163 74);
+    color: white;
+}

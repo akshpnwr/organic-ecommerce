@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "name": "Green",
+    "price": "$14.99",
+    "imageUrl": "/apple.png",
+    "ratingImageUrl": "/star-yellow.svg"
+  },
+  {
+    "id": "2",
+    "name": "Red Apple",
+    "price": "$13.99",
+    "imageUrl": "/apple.png",
+    "ratingImageUrl": "/star-yellow.svg"
+  },
+  {
+    "id": "3",
+    "name": "Green",
+    "price": "$14.99",
+    "imageUrl": "/apple.png",
+    "ratingImageUrl": "/star-yellow.svg"
+  },
+  {
+    "id": "4",
+    "name": "Red Apple",
+    "price": "$13.99",
+    "imageUrl": "/apple.png",
+    "ratingImageUrl": "/star-yellow.svg"
+  },
+  {
+    "id": "5",
+    "name": "Red Apple",
+    "price": "$13.99",
+    "imageUrl": "/apple.png",
+    "ratingImageUrl": "/star-yellow.svg"
+  }
+]
