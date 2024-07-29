@@ -8,6 +8,6 @@ router.get('/', getAllProducts);
 
 router.get('/:id', getProduct);
 
-router.post('/', upload.array("productImage"), addProduct);
+router.post('/', upload.single("img"), addProduct);
 
 export default router;

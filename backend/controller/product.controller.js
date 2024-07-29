@@ -11,12 +11,20 @@ export const getAllProducts = async (req, res) => {
 
 export const addProduct = async (req, res) => {
 
-    const product = req.body;
-    const result = await Product.create(product);
-    if (!res) {
-        res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid data}' });
+    try {
+        const product = req.body;
+        const img = req.file.path;
+
+        const newProduct = {
+            ...product,
+            img
+        }
+        const result = await Product.create(newProduct);
+        res.status(StatusCodes.OK).json({ message: 'Product added successfully', product: result });
     }
-    else res.status(StatusCodes.OK).json(result);
+    catch (error) {
+        res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid data' });
+    }
 }
 
 export const getProduct = async (req, res) => {
