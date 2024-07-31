@@ -3,6 +3,7 @@ import heroImage from "../../assets/images/hero-image.png";
 import rightArrow from "../../assets/images/right-arrow.svg";
 import FeatureSection from "./featured-section";
 import ButtonCustom from "../UI/ButtonCustom";
+import { Link } from "react-router-dom";
 
 export const Hero: React.FC = () => {
   return (
@@ -25,18 +26,19 @@ export const Hero: React.FC = () => {
                 <p className="mt-3 text-sm leading-5 font-extralight text-zinc-400">
                   Free shipping on all your order. we deliver, you enjoy
                 </p>
-                {/* <button className="flex gap-4 justify-center px-5 py-3 mt-6 md:mt-8 text-base leading-5 text-white bg-green-600 rounded-[53px] md:px-10 md:py-5"> */}
-                <ButtonCustom
-                  text="Shop now"
-                  classes="flex gap-4 justify-center hover:bg-green-700 hover:scale-95"
-                >
-                  <img
-                    src={rightArrow}
-                    alt="Arrow Right"
-                    className="shrink-0 self-start aspect-[1.15] w-[25px]"
-                    loading="lazy"
-                  />
-                </ButtonCustom>
+                <Link to="/shop">
+                  <ButtonCustom
+                    text="Shop now"
+                    classes="flex gap-4 justify-center hover:bg-green-700 hover:scale-95"
+                  >
+                    <img
+                      src={rightArrow}
+                      alt="Arrow Right"
+                      className="shrink-0 self-start aspect-[1.15] w-[25px]"
+                      loading="lazy"
+                    />
+                  </ButtonCustom>
+                </Link>
               </div>
             </div>
             <div className="w-full md:w-1/2">

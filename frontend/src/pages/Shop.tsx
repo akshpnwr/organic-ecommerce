@@ -11,7 +11,7 @@ import { Separator } from "@/components/UI/separator";
 
 const Shop: React.FC = () => {
   return (
-    <div className="max-w-6xl my-6 mx-4 md:mx-auto">
+    <div className="max-w-6xl px-2 my-6 mx-4 md:mx-auto">
       <div className="flex flex-col gap-6 md:flex-row md:justify-between mb-10">
         <div className="flex justify-between md:gap-6">
           <Select>
