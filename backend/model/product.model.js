@@ -15,7 +15,8 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true
+        required: true,
+        enum: ['bakery', 'fruit', 'vegetable', 'beverage', 'dairy']
     },
     rating: {
         type: Number,

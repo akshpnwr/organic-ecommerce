@@ -6,8 +6,16 @@ export const getAllProducts = async (req, res) => {
         const limit = parseInt(req.query.limit, 10) || 0;
         const sortField = req.query.sortField || 'createdAt';
         const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
+        const category = req.query.category || '';
+        const minPrice = parseFloat(req.query.minPrice) || 0;
+        const maxPrice = parseFloat(req.query.maxPrice) || Number.MAX_SAFE_INTEGER;
 
-        const products = await Product.find({}).limit(limit).sort({ [sortField]: sortOrder });
+        const filter = {
+            ...(category && { category }),
+            price: { $gte: minPrice, $lte: maxPrice }
+        };
+
+        const products = await Product.find(filter).limit(limit).sort({ [sortField]: sortOrder });
         res.status(StatusCodes.OK).json({ totalProducts: products.length, products });
     } catch (error) {
         res.status(StatusCodes.NOT_FOUND).json({ message: 'Products not found' });

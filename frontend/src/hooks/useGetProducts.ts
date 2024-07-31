@@ -6,12 +6,18 @@ interface UseGetProductsProps {
   limit?: number;
   sortField?: string;
   sortOrder?: string;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
 }
 
 const useGetProducts = ({
   limit,
   sortField,
   sortOrder,
+  category,
+  minPrice,
+  maxPrice,
 }: UseGetProductsProps) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>();
@@ -25,6 +31,9 @@ const useGetProducts = ({
         if (limit) queryParams.append("limit", limit.toString());
         if (sortField) queryParams.append("sortField", sortField);
         if (sortOrder) queryParams.append("sortOrder", sortOrder);
+        if (category) queryParams.append("category", category);
+        if (minPrice) queryParams.append("minPrice", minPrice.toString());
+        if (maxPrice) queryParams.append("maxPrice", maxPrice.toString());
 
         const res = await fetch(`/api/v1/products?${queryParams.toString()}`);
         const data = await res.json();
@@ -39,7 +48,7 @@ const useGetProducts = ({
     };
 
     fetchProducts();
-  }, [limit, sortField, sortOrder]);
+  }, [limit, sortField, sortOrder, category, minPrice, maxPrice]);
 
   return { loading, products };
 };
