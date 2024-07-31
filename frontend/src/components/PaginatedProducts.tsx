@@ -4,15 +4,13 @@ import { Product } from "../types";
 import { useState } from "react";
 import "../assets/styles/pagination.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import useGetProducts from "@/hooks/useGetProducts";
 
 interface PaginatedItemsProps {
   itemsPerPage: number;
+  products: Product[];
 }
 
 function Products({ currentProducts }: { currentProducts: Product[] }) {
-  console.log(currentProducts);
-
   return (
     <>
       {currentProducts.map((product) => (
@@ -26,20 +24,18 @@ function Products({ currentProducts }: { currentProducts: Product[] }) {
   );
 }
 
-const PaginatedItems: React.FC<PaginatedItemsProps> = ({ itemsPerPage }) => {
-  const { loading, products } = useGetProducts();
+const PaginatedItems: React.FC<PaginatedItemsProps> = ({
+  itemsPerPage,
+  products,
+}) => {
   const [itemOffset, setItemOffset] = useState(0);
-
-  if (products === undefined || loading) {
-    return <p>Loading...</p>;
-  }
 
   const endOffset = itemOffset + itemsPerPage;
   const currentProducts = products.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(products.length / itemsPerPage);
 
-  const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * itemsPerPage) % products.length;
+  const handlePageClick = (selectedItem: { selected: number }) => {
+    const newOffset = (selectedItem.selected * itemsPerPage) % products.length;
     setItemOffset(newOffset);
   };
 

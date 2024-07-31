@@ -2,11 +2,16 @@ import Product from "../model/product.model.js";
 import { StatusCodes } from "http-status-codes";
 
 export const getAllProducts = async (req, res) => {
-    const products = await Product.find({});
+    try {
+        const limit = parseInt(req.query.limit, 10) || 0;
+        const sortField = req.query.sortField || 'createdAt';
+        const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
 
-    if (products) res.status(StatusCodes.OK).json({ totalProducts: products.length, products });
-    else res.status(StatusCodes.NOT_FOUND).json({ message: 'Products not found' });
-
+        const products = await Product.find({}).limit(limit).sort({ [sortField]: sortOrder });
+        res.status(StatusCodes.OK).json({ totalProducts: products.length, products });
+    } catch (error) {
+        res.status(StatusCodes.NOT_FOUND).json({ message: 'Products not found' });
+    }
 }
 
 export const addProduct = async (req, res) => {

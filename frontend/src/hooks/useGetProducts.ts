@@ -2,7 +2,17 @@ import { Product } from "@/types";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const useGetProducts = () => {
+interface UseGetProductsProps {
+  limit?: number;
+  sortField?: string;
+  sortOrder?: string;
+}
+
+const useGetProducts = ({
+  limit,
+  sortField,
+  sortOrder,
+}: UseGetProductsProps) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>();
 
@@ -11,7 +21,12 @@ const useGetProducts = () => {
       setLoading(true);
 
       try {
-        const res = await fetch("/api/v1/products");
+        const queryParams = new URLSearchParams();
+        if (limit) queryParams.append("limit", limit.toString());
+        if (sortField) queryParams.append("sortField", sortField);
+        if (sortOrder) queryParams.append("sortOrder", sortOrder);
+
+        const res = await fetch(`/api/v1/products?${queryParams.toString()}`);
         const data = await res.json();
         setProducts(data.products);
       } catch (error) {
@@ -24,7 +39,7 @@ const useGetProducts = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [limit, sortField, sortOrder]);
 
   return { loading, products };
 };
