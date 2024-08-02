@@ -2,6 +2,7 @@ import express from 'express';
 import productRouter from './router/product.router.js';
 import connectDB from './db/connect.js';
 import dotenv from 'dotenv'
+import path from 'path';
 
 dotenv.config()
 const app = express();
