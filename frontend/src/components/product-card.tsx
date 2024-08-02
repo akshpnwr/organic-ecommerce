@@ -27,8 +27,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, direction }) => {
         src={product.img}
         alt={product.name}
         className={`${
-          direction == "vertical" ? "w-1/3 mx-4 my-3" : "w-full"
-        } aspect-[1.01] rounded-t-md object-cover object-center`}
+          direction == "vertical" ? "w-1/3 rounded-l-md" : "w-full rounded-t-md"
+        } aspect-[1.01] object-cover object-center`}
       />
       <div className="flex justify-between">
         <div className="flex flex-col gap-1 justify-center px-4 py-3.5 w-full">

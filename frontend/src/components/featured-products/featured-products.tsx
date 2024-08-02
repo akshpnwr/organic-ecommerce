@@ -65,7 +65,7 @@ const FeaturedProducts: React.FC = () => {
         ))}
       </section>
 
-      <section className="mt-10 mx-4 grid grid-cols-1 items-center gap-4 md:gap-0 md:grid-cols-4">
+      <section className="mt-10 mx-4 grid grid-cols-1 items-center gap-4 md:grid-cols-4">
         <FeaturedProductsSubSection title="Hot Deals" products={products} />
         <FeaturedProductsSubSection title="Best Seller" products={products} />
         <FeaturedProductsSubSection title="Top Rated" products={products} />
