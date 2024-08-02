@@ -18,6 +18,7 @@ const Shop: React.FC = () => {
   const [category, setCategory] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_SAFE_INTEGER);
+  const [minRating, setMinRating] = useState(0);
 
   const { loading, products } = useGetProducts({
     sortField,
@@ -25,6 +26,7 @@ const Shop: React.FC = () => {
     category,
     minPrice,
     maxPrice,
+    minRating,
   });
 
   const sortChangeHandler = (value: string) => {
@@ -90,6 +92,14 @@ const Shop: React.FC = () => {
     }
   };
 
+  const ratingChangeHandler = (value: string) => {
+    if (value === "0") {
+      setMinRating(0);
+      return;
+    }
+    setMinRating(parseInt(value));
+  };
+
   if (products === undefined || loading) {
     return (
       <div className="text-center my-40">
@@ -149,16 +159,16 @@ const Shop: React.FC = () => {
               </SelectItem>
             </SelectContent>
           </Select>
-          <Select>
+          <Select onValueChange={ratingChangeHandler}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Rating" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="1">Above 1 star</SelectItem>
-              <SelectItem value="2">Above 2 star</SelectItem>
-              <SelectItem value="3">Above 3 star</SelectItem>
-              <SelectItem value="4">Above 4 star</SelectItem>
+              <SelectItem value="0">All</SelectItem>
+              <SelectItem value="1">1 & Above</SelectItem>
+              <SelectItem value="2">2 & Above</SelectItem>
+              <SelectItem value="3">3 & Above</SelectItem>
+              <SelectItem value="4">4 & Above</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -9,6 +9,7 @@ interface UseGetProductsProps {
   category?: string;
   minPrice?: number;
   maxPrice?: number;
+  minRating?: number;
 }
 
 const useGetProducts = ({
@@ -18,6 +19,7 @@ const useGetProducts = ({
   category,
   minPrice,
   maxPrice,
+  minRating,
 }: UseGetProductsProps) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>();
@@ -34,6 +36,7 @@ const useGetProducts = ({
         if (category) queryParams.append("category", category);
         if (minPrice) queryParams.append("minPrice", minPrice.toString());
         if (maxPrice) queryParams.append("maxPrice", maxPrice.toString());
+        if (minRating) queryParams.append("minRating", minRating.toString());
 
         const res = await fetch(`/api/v1/products?${queryParams.toString()}`);
         const data = await res.json();
@@ -48,7 +51,7 @@ const useGetProducts = ({
     };
 
     fetchProducts();
-  }, [limit, sortField, sortOrder, category, minPrice, maxPrice]);
+  }, [limit, sortField, sortOrder, category, minPrice, maxPrice, minRating]);
 
   return { loading, products };
 };

@@ -1,62 +1,34 @@
 import ProductCard from "../product-card";
-import appleImg from "../../assets/images/products/apple.png";
-import starYellowImg from "../../assets/images/star-yellow.svg";
 import banner from "../../assets/images/featured-products-banner.png";
 import { Product } from "../../types";
 import underline from "../../assets/images/underline.svg";
 import ImageWithPlaceholder from "../UI/ImageWithPlaceholder";
-
-const products: Product[] = [
-  {
-    id: "1",
-    name: "Green",
-    price: "$14.99",
-    imageUrl: appleImg,
-    ratingImageUrl: starYellowImg,
-  },
-  {
-    id: "2",
-    name: "Red Apple",
-    price: "$13.99",
-    imageUrl: appleImg,
-    ratingImageUrl: starYellowImg,
-  },
-  {
-    id: "3",
-    name: "Green",
-    price: "$14.99",
-    imageUrl: appleImg,
-    ratingImageUrl: starYellowImg,
-  },
-  {
-    id: "4",
-    name: "Red Apple",
-    price: "$13.99",
-    imageUrl: appleImg,
-    ratingImageUrl: starYellowImg,
-  },
-  {
-    id: "5",
-    name: "Red Apple",
-    price: "$13.99",
-    imageUrl: appleImg,
-    ratingImageUrl: starYellowImg,
-  },
-];
+import useGetProducts from "@/hooks/useGetProducts";
+import { RotateLoader } from "react-spinners";
 
 const FeaturedProductsSubSection: React.FC<{
   title: string;
   products: Product[];
 }> = ({ title }) => {
+  const { loading, products } = useGetProducts({ limit: 3 });
+
+  if (products === undefined || loading) {
+    return (
+      <div className="text-center my-40">
+        <RotateLoader color="#16a34a" />
+      </div>
+    );
+  }
+
   return (
     <div>
       <h1 className="mb-4 font-semibold text-left md:text-base text-zinc-900">
         {title}
       </h1>
       <div className="flex flex-col gap-3">
-        {[products[0], products[1], products[2]].map((product) => (
+        {products.map((product) => (
           <ProductCard
-            key={product.id}
+            key={product._id}
             product={product}
             direction="vertical"
           />
@@ -67,6 +39,16 @@ const FeaturedProductsSubSection: React.FC<{
 };
 
 const FeaturedProducts: React.FC = () => {
+  const { loading, products } = useGetProducts({ limit: 5 });
+
+  if (products === undefined || loading) {
+    return (
+      <div className="text-center my-40">
+        <RotateLoader color="#16a34a" />
+      </div>
+    );
+  }
+
   return (
     <div className="md:w-3/4 mt-12 md:mt-0 mx-auto">
       <h1 className="font-bold text-center text-2xl md:text-4xl text-zinc-900">
@@ -76,7 +58,7 @@ const FeaturedProducts: React.FC = () => {
       <section className="mt-10 grid grid-cols-2 gap-2 mx-4 justify-items-center sm:grid-cols-2 md:grid-cols-5 md:gap-3">
         {products.map((product) => (
           <ProductCard
-            key={product.id}
+            key={product._id}
             product={product}
             direction="horizontal"
           />

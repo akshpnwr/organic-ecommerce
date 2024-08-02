@@ -4,24 +4,48 @@ import appleImg1 from "../assets/images/products/apple-1.jpg";
 import appleImg2 from "../assets/images/products/apple-2.jpg";
 import { Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonCustom from "@/components/UI/ButtonCustom";
+import { useParams } from "react-router-dom";
+import useGetProduct from "@/hooks/useGetProduct";
+import { RotateLoader } from "react-spinners";
+import Rating from "@/components/UI/rating";
 
 export default function Product() {
   const [selectedImg, setSelectedImg] = useState(appleImg1);
+  const params = useParams();
+  const id = params.id as string;
+  const { loading, product } = useGetProduct(id);
+
+  useEffect(() => {
+    if (!product) return;
+
+    setSelectedImg(product.img);
+  }, [product]);
+
+  if (product === undefined || loading) {
+    return (
+      <div className="text-center my-40">
+        <RotateLoader color="#16a34a" />
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto py-6">
         <div className="grid gap-3 items-start">
           <div className="grid gap-4">
-            <img
-              src={selectedImg}
-              alt="Product Image"
-              width={600}
-              height={900}
-              className="object-center object-cover border rounded-sm w-full h-fullrounded-lg overflow-hidden"
-            />
+            <div className="max-h-96">
+              <img
+                src={selectedImg}
+                alt="Product Image"
+                width={600}
+                height={900}
+                className="object-center object-cover border rounded-sm w-full h-full"
+              />
+            </div>
+
             <div className="hidden md:flex gap-4 items-start">
               <button
                 onClick={() => setSelectedImg(appleImg2)}
@@ -106,36 +130,23 @@ export default function Product() {
         </div>
         <div className="grid gap-4 md:gap-4 items-start">
           <div className="grid gap-4">
-            <h1 className="font-bold text-3xl lg:text-4xl">Apple</h1>
+            <h1 className="font-bold text-3xl lg:text-4xl">{product.name}</h1>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-0.5">
-                <Star
+                <Rating
+                  className="flex"
+                  count={5}
+                  value={product.rating}
+                  edit={false}
                   size={20}
-                  color="#eab308"
-                  fill="#eab308"
-                  strokeWidth={0.5}
                 />
-                <Star
-                  size={20}
-                  color="#eab308"
-                  fill="#eab308"
-                  strokeWidth={0.5}
-                />
-                <Star
-                  size={20}
-                  color="#eab308"
-                  fill="#eab308"
-                  strokeWidth={0.5}
-                />
-                <Star size={20} color="#eab308" strokeWidth={0.5} />
-                <Star size={20} color="#eab308" strokeWidth={0.5} />
               </div>
               <span className="text-sm text-muted-foreground">
                 (42 reviews)
               </span>
             </div>
             <div>
-              <p className="text-2xl font-bold">$49.99</p>
+              <p className="text-2xl font-bold">$ {product.price}</p>
               <p className="text-muted-foreground">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
               </p>

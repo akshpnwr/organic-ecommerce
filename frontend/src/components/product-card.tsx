@@ -16,7 +16,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, direction }) => {
 
   return (
     <Link
-      to="/product"
+      to={`/products/${product._id}`}
       className={`flex ${
         direction == "vertical" ? "flex-row" : "flex-col"
       } whitespace-nowrap w-full bg-white rounded-md border border-solid border-neutral-300 cursor-pointer leading-[150%] hover:border-1 hover:border-green-400 hover:shadow-sm hover:shadow-green-500`}
