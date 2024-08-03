@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import User from "../model/user.model.js"
 
 export const signup = async (req, res) => {
-
+    console.log('signup', req.body);
     try {
         const { firstName, lastName, username, gender, password, confirmPassword } = req.body;
 

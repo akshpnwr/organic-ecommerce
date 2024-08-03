@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 type signupFormData = {
   firstName: string;
@@ -12,11 +13,29 @@ type signupFormData = {
 
 const useSingup = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const signup = (data: signupFormData) => {
+  const signup = async (data: signupFormData) => {
     if (!isDataValid(data)) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/v1/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    toast.success("Signup successful");
+      if (res.ok) {
+        toast.success("Account created!");
+        navigate("/sign-up-success");
+      }
+    } catch (error) {
+      toast.error("Failed to signup");
+    } finally {
+      setLoading(false);
+    }
   };
   return { loading, signup };
 };
@@ -50,10 +69,10 @@ const isDataValid = (data: signupFormData) => {
     return false;
   }
 
-  if (password.length < 8) {
-    toast.error("Password length cannot be less than 8");
-    return false;
-  }
+  // if (password.length < 8) {
+  //   toast.error("Password length cannot be less than 8");
+  //   return false;
+  // }
 
   if (password !== confirmPassword) {
     toast.error("Passwords do not match");

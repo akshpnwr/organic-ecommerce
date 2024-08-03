@@ -13,6 +13,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { FormEvent, useState } from "react";
 import useLogin from "@/hooks/useLogin";
 import { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -82,7 +83,23 @@ const Login = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="bg-green-600 w-full">Log In</Button>
+            <div className="w-full">
+              <div className="flex pb-3 gap-2 text-sm">
+                <p>Don't have an account?</p>
+                <Link
+                  to="/signup"
+                  className="text-green-600 font-semibold hover:text-green-800"
+                >
+                  Sign up
+                </Link>
+              </div>
+              <Button
+                type="submit"
+                className="bg-green-600 w-full hover:bg-green-700"
+              >
+                Log In
+              </Button>
+            </div>
           </CardFooter>
         </Card>
       </form>
