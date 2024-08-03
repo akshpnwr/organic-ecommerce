@@ -6,11 +6,12 @@ import AboutUs from "./pages/About-us";
 import Shop from "./pages/Shop";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
+import SignUp from "./pages/Sign-up";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <Routes>
-      {/* Wrap elements in layout */}
       <Route element={<Layout />}>
         <Route path="/" element={<Homepage />} />
         <Route path="/contact-us" element={<ContactUs />} />
@@ -19,6 +20,8 @@ function App() {
         <Route path="/products/:id" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
       </Route>
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }
