@@ -27,12 +27,14 @@ const useSingup = () => {
         body: JSON.stringify(data),
       });
 
-      if (res.ok) {
-        toast.success("Account created!");
-        navigate("/sign-up-success");
-      }
+      if (!res.ok) throw new Error("Failed to singup");
+
+      toast.success("Account created!");
+      navigate("/sign-up-success");
     } catch (error) {
-      toast.error("Failed to signup");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     } finally {
       setLoading(false);
     }

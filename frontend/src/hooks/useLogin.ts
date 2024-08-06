@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 type loginFormData = {
   username: string;
@@ -8,11 +9,30 @@ type loginFormData = {
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const login = (data: loginFormData) => {
+  const login = async (data: loginFormData) => {
     if (!isDataValid(data)) return;
 
-    toast.success("login successful");
+    try {
+      const res = await fetch("/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error("Invalid username or password");
+
+      navigate("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
   return { loading, login };
 };

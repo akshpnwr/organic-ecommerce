@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 interface DropdownItemProps {
   label: string;
@@ -58,9 +59,13 @@ const Top: React.FC = () => {
             ))}
           </nav>
           <div className="flex gap-1">
-            <div className="grow">Sign In</div>
+            <Link to="/login" className="grow">
+              Sign In
+            </Link>
             <div>/</div>
-            <div className="grow">Sign Up</div>
+            <Link to="/signup" className="grow">
+              Sign Up
+            </Link>
           </div>
         </div>
       </div>
