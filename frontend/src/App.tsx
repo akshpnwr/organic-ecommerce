@@ -9,8 +9,19 @@ import Cart from "./pages/Cart";
 import SignUp from "./pages/Sign-up";
 import Login from "./pages/Login";
 import SignUpSuccess from "./pages/Sign-up-success";
+import useAuthUser from "./zustand/useAuthUser";
+import { useEffect } from "react";
 
 function App() {
+  const { setUser } = useAuthUser();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, [setUser]);
+
   return (
     <Routes>
       <Route element={<Layout />}>

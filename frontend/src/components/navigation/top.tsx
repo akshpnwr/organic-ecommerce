@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { Separator } from "../UI/separator";
+import useAuthUser from "@/zustand/useAuthUser";
 
 interface DropdownItemProps {
   label: string;
@@ -21,6 +23,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ label, imgUrl }) => {
 };
 
 const Top: React.FC = () => {
+  const { user, logout } = useAuthUser();
   const dropdownItems = [
     {
       label: "Eng",
@@ -58,15 +61,35 @@ const Top: React.FC = () => {
               />
             ))}
           </nav>
-          <div className="flex gap-1">
-            <Link to="/login" className="grow">
-              Sign In
-            </Link>
-            <div>/</div>
-            <Link to="/signup" className="grow">
-              Sign Up
-            </Link>
-          </div>
+          {!user && (
+            <div className="flex items-center gap-2">
+              <Link
+                to="/login"
+                className="grow hover:text-green-600 hover:border-b hover:border-b-green-600"
+              >
+                Sign In
+              </Link>
+              <Separator
+                orientation="vertical"
+                className="w-[1.5px] bg-gray-400"
+                color="black"
+              />
+              <Link
+                to="/signup"
+                className="grow hover:text-green-600 hover:border-b hover:border-b-green-600"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
+          {user && (
+            <div
+              onClick={logout}
+              className="cursor-pointer text-gray-800 font-medium border-b hover:border-b-green-600 hover:text-green-600 "
+            >
+              Log out
+            </div>
+          )}
         </div>
       </div>
     </header>

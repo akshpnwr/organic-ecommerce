@@ -1,3 +1,5 @@
+import { User } from "@/types";
+import useAuthUser from "@/zustand/useAuthUser";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +12,10 @@ type loginFormData = {
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { setUser } = useAuthUser();
 
-  const login = async (data: loginFormData) => {
-    if (!isDataValid(data)) return;
+  const login = async (loginData: loginFormData) => {
+    if (!isDataValid(loginData)) return;
 
     try {
       const res = await fetch("/api/v1/auth/login", {
@@ -20,10 +23,17 @@ const useLogin = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(loginData),
       });
 
       if (!res.ok) throw new Error("Invalid username or password");
+
+      const data = await res.json();
+
+      const user: User = data.user;
+
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
 
       navigate("/");
     } catch (error) {

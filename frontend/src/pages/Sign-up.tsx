@@ -143,12 +143,22 @@ const SignUp = () => {
                     Login
                   </Link>
                 </div>
-                <Button
-                  type="submit"
-                  className="bg-green-600 w-full hover:bg-green-700"
-                >
-                  Sign Up
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    type="submit"
+                    className="bg-green-600 w-full hover:bg-green-700"
+                  >
+                    Sign Up
+                  </Button>
+                  <Link to="/">
+                    <Button
+                      variant="outline"
+                      className="w-full text-green-600 hover:text-green-600 border-green-600"
+                    >
+                      Back to Homepage
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </CardFooter>
           </Card>
