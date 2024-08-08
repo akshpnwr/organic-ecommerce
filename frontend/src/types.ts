@@ -15,3 +15,20 @@ export interface User {
   gender: "male" | "female";
   profilePicture: string;
 }
+
+export interface CartItemType {
+  product: Product;
+  quantity: number;
+}
+
+export interface CartState {
+  cart: CartItemType[];
+  // eslint-disable-next-line no-unused-vars
+  addToCart: (item: CartItemType) => void;
+  // eslint-disable-next-line no-unused-vars
+  removeFromCart: (id: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  updateQuantity: (id: string, quantity: number) => void;
+  clearCart: () => void;
+  subTotal: number;
+}

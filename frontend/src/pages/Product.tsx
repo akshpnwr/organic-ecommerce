@@ -2,20 +2,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/UI/avatar";
 import { Separator } from "@/components/UI/separator";
 import appleImg1 from "../assets/images/products/apple-1.jpg";
 import appleImg2 from "../assets/images/products/apple-2.jpg";
-import { Star } from "lucide-react";
+import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
 import { useEffect, useState } from "react";
-import ButtonCustom from "@/components/UI/ButtonCustom";
 import { useParams } from "react-router-dom";
 import useGetProduct from "@/hooks/useGetProduct";
 import { RotateLoader } from "react-spinners";
 import Rating from "@/components/UI/rating";
+import { Button } from "@/components/UI/button";
+import useCart from "@/zustand/useCart";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Product() {
   const [selectedImg, setSelectedImg] = useState(appleImg1);
   const params = useParams();
   const id = params.id as string;
   const { loading, product } = useGetProduct(id);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (!product) return;
@@ -30,6 +33,13 @@ export default function Product() {
       </div>
     );
   }
+
+  const addToCartHandler = () => {
+    console.log(product);
+
+    addToCart({ product, quantity: 1 });
+    toast.success(`${product.name} added to cart`);
+  };
 
   return (
     <>
@@ -152,10 +162,17 @@ export default function Product() {
               </p>
             </div>
           </div>
-          <ButtonCustom
-            text="Add to Cart"
-            classes="text-xl font-medium hover:bg-green-700"
-          ></ButtonCustom>
+          <div className="grid grid-cols-2 gap-2">
+            <Button className="group border-[1.6px] border-red-400 bg-white rounded-lg text-xl font-medium hover:bg-red-400">
+              <Heart className="text-red-400 group-hover:text-white" />
+            </Button>
+            <Button
+              onClick={addToCartHandler}
+              className="bg-green-600 rounded-lg text-xl font-medium hover:bg-green-700"
+            >
+              <ShoppingCart />
+            </Button>
+          </div>
           <Separator className="my-4" />
           <div className="grid gap-4">
             <h2 className="font-bold text-2xl">Product Details</h2>
@@ -344,6 +361,7 @@ export default function Product() {
           </div>
         </TabsContent>
       </Tabs>
+      <Toaster />
     </>
   );
 }
