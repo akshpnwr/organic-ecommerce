@@ -26,7 +26,9 @@ export interface CartState {
   // eslint-disable-next-line no-unused-vars
   fetchAndSetCart: (userId: string) => Promise<void>;
   // eslint-disable-next-line no-unused-vars
-  addToCart: (item: CartItemType, userId: string) => Promise<void>;
+  addToCart: (item: CartItemType) => void;
+  // eslint-disable-next-line no-unused-vars
+  setCart: (items: CartItemType[], subTotal: number) => void;
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (id: string) => void;
   // eslint-disable-next-line no-unused-vars

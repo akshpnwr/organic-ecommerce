@@ -1,16 +1,41 @@
 import { Button } from "@/components/UI/button";
 import { Separator } from "@/components/UI/separator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartItem from "@/components/CartItem";
 import useCart from "@/zustand/useCart";
+import useGetCartItems from "@/hooks/useGetCartItems";
+import useAuthUser from "@/zustand/useAuthUser";
+import { RotateLoader } from "react-spinners";
+import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
+import useClearCart from "@/hooks/useClearCart";
 
 export default function Cart() {
-  const { items, subTotal, clearCart } = useCart();
-  const isEmpty = items.length === 0;
+  const { user, authLoading } = useAuthUser();
+  const userId = user?._id || "";
+  const { loading } = useGetCartItems(userId);
+  const { clearCart } = useClearCart(userId);
+  const { items, subTotal } = useCart();
+  const navigate = useNavigate();
+  const isEmpty = loading === false && items.length === 0;
 
   const shipping = 1.5;
   const tax = 2;
   const total = subTotal + shipping + tax;
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      return navigate("/login");
+    }
+  }, [authLoading, user, navigate]);
+
+  if (authLoading) {
+    return (
+      <div className="text-center my-40">
+        <RotateLoader color="#16a34a" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto flex flex-col min-h-[80vh] bg-muted/40 mt-8">
@@ -80,6 +105,7 @@ export default function Cart() {
           </div>
         </main>
       )}
+      <Toaster />
     </div>
   );
 }

@@ -10,17 +10,17 @@ import useGetProduct from "@/hooks/useGetProduct";
 import { RotateLoader } from "react-spinners";
 import Rating from "@/components/UI/rating";
 import { Button } from "@/components/UI/button";
-import useCart from "@/zustand/useCart";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import useAuthUser from "@/zustand/useAuthUser";
+import useAddToCart from "@/hooks/useAddToCart";
 
 export default function Product() {
   const [selectedImg, setSelectedImg] = useState(appleImg1);
   const params = useParams();
   const id = params.id as string;
   const { loading, product } = useGetProduct(id);
-  const { addToCart } = useCart();
   const { user } = useAuthUser();
+  const { addToCart } = useAddToCart(user?._id || "");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,8 +42,7 @@ export default function Product() {
 
     if (!user) return navigate("/login");
 
-    addToCart({ product, quantity: 1 }, user._id);
-    toast.success(`${product.name} added to cart`);
+    addToCart(product, 1);
   };
 
   return (
