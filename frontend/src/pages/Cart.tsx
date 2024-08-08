@@ -5,8 +5,8 @@ import CartItem from "@/components/CartItem";
 import useCart from "@/zustand/useCart";
 
 export default function Cart() {
-  const { cart, subTotal, clearCart } = useCart();
-  const isEmpty = cart.length === 0;
+  const { items, subTotal, clearCart } = useCart();
+  const isEmpty = items.length === 0;
 
   const shipping = 1.5;
   const tax = 2;
@@ -41,7 +41,7 @@ export default function Cart() {
         <main className="flex flex-col md:flex-row gap-4">
           <div className="flex-grow">
             <ul className="flex flex-col gap-2 md:gap-4 px-1 md:px-0">
-              {cart.map((item) => (
+              {items.map((item) => (
                 <CartItem key={item.product._id} {...item} />
               ))}
             </ul>

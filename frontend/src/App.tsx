@@ -11,16 +11,23 @@ import Login from "./pages/Login";
 import SignUpSuccess from "./pages/Sign-up-success";
 import useAuthUser from "./zustand/useAuthUser";
 import { useEffect } from "react";
+import useCart from "./zustand/useCart";
 
 function App() {
   const { setUser } = useAuthUser();
+  const { fetchAndSetCart } = useCart();
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
-    }
-  }, [setUser]);
+    const setUserAndCart = async () => {
+      const user = localStorage.getItem("user");
+      if (user) {
+        setUser(JSON.parse(user));
+        await fetchAndSetCart(JSON.parse(user)._id);
+      }
+    };
+
+    setUserAndCart();
+  }, [setUser, fetchAndSetCart]);
 
   return (
     <Routes>

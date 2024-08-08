@@ -5,13 +5,14 @@ import appleImg2 from "../assets/images/products/apple-2.jpg";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetProduct from "@/hooks/useGetProduct";
 import { RotateLoader } from "react-spinners";
 import Rating from "@/components/UI/rating";
 import { Button } from "@/components/UI/button";
 import useCart from "@/zustand/useCart";
 import toast, { Toaster } from "react-hot-toast";
+import useAuthUser from "@/zustand/useAuthUser";
 
 export default function Product() {
   const [selectedImg, setSelectedImg] = useState(appleImg1);
@@ -19,6 +20,8 @@ export default function Product() {
   const id = params.id as string;
   const { loading, product } = useGetProduct(id);
   const { addToCart } = useCart();
+  const { user } = useAuthUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!product) return;
@@ -37,7 +40,9 @@ export default function Product() {
   const addToCartHandler = () => {
     console.log(product);
 
-    addToCart({ product, quantity: 1 });
+    if (!user) return navigate("/login");
+
+    addToCart({ product, quantity: 1 }, user._id);
     toast.success(`${product.name} added to cart`);
   };
 

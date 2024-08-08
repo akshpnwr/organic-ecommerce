@@ -22,9 +22,11 @@ export interface CartItemType {
 }
 
 export interface CartState {
-  cart: CartItemType[];
+  items: CartItemType[];
   // eslint-disable-next-line no-unused-vars
-  addToCart: (item: CartItemType) => void;
+  fetchAndSetCart: (userId: string) => Promise<void>;
+  // eslint-disable-next-line no-unused-vars
+  addToCart: (item: CartItemType, userId: string) => Promise<void>;
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (id: string) => void;
   // eslint-disable-next-line no-unused-vars

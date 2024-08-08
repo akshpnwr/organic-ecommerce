@@ -45,9 +45,6 @@ export const addProduct = async (req, res) => {
 export const getProduct = async (req, res) => {
     const { id } = req.params;
     const product = await Product.findById(id);
-    console.log('get product', product);
-
     if (product) res.status(StatusCodes.OK).json({ product });
     else res.status(StatusCodes.NOT_FOUND).json({ message: 'Product not found' });
-
 }
