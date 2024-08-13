@@ -305,7 +305,7 @@ const AboutUs = () => {
               </div>
               <p className="text-gray-700 text-xs md:text-sm">Worker</p>
             </div>
-          </div>{" "}
+          </div>
           <div className="md:m-4 max-w-sm rounded overflow-hidden shadow-lg">
             <img
               className="w-full"

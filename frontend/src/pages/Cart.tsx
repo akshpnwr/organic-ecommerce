@@ -10,6 +10,18 @@ import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import useClearCart from "@/hooks/useClearCart";
 
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/UI/alert-dialog";
+import { OrderForm } from "@/components/OrderForm";
+import {
+  AlertDialogDescription,
+  AlertDialogTitle,
+} from "@radix-ui/react-alert-dialog";
+
 export default function Cart() {
   const { user, authLoading } = useAuthUser();
   const userId = user?._id || "";
@@ -92,9 +104,20 @@ export default function Cart() {
               </div>
 
               <div className="grid gap-2">
-                <Button className="w-full bg-green-600 hover:bg-green-700">
-                  Proceed to Checkout
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button className="w-full bg-green-600 hover:bg-green-700">
+                      Proceed to Checkout
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="hidden"></AlertDialogTitle>
+                      <AlertDialogDescription></AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <OrderForm />
+                  </AlertDialogContent>
+                </AlertDialog>
                 <Link to="/shop">
                   <Button variant="outline" className="w-full">
                     Continue Shopping
