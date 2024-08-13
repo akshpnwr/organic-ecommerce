@@ -29,7 +29,7 @@ export default function Cart() {
     }
   }, [authLoading, user, navigate]);
 
-  if (authLoading) {
+  if (authLoading || loading) {
     return (
       <div className="text-center my-40">
         <RotateLoader color="#16a34a" />

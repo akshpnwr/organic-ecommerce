@@ -1,21 +1,29 @@
 import { Minus, Plus, Trash } from "lucide-react";
 import { Button } from "@/components/UI/button";
 import { CartItemType } from "@/types";
-import useCart from "@/zustand/useCart";
+import useUpdateQuantity from "@/hooks/useUpdateQuantity";
+import useAuthUser from "@/zustand/useAuthUser";
+import useRemoveItemFromCart from "@/hooks/useRemoveItemFromCart";
 
 const CartItem: React.FC<CartItemType> = ({ product, quantity }) => {
-  const { updateQuantity, removeFromCart } = useCart();
+  const { user } = useAuthUser();
+  const { updateQuantity } = useUpdateQuantity();
+  const { removeItem } = useRemoveItemFromCart();
+
   const incrementQuantityHandler = () => {
-    updateQuantity(product._id, quantity + 1);
+    if (!user) return;
+    updateQuantity(user._id, product._id, quantity + 1);
   };
 
   const decrementQuantityHandler = () => {
+    if (!user) return;
     if (quantity === 1) return;
-    updateQuantity(product._id, quantity - 1);
+    updateQuantity(user._id, product._id, quantity - 1);
   };
 
   const removeItemHandler = () => {
-    removeFromCart(product._id);
+    if (!user) return;
+    removeItem(user._id, product._id);
   };
 
   return (

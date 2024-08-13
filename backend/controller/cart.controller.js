@@ -45,7 +45,7 @@ export const addItemToCart = async (req, res) => {
 
 export const removeItemFromCart = async (req, res) => {
     try {
-        const cart = await Cart.findOne({ userId: req.params.userId });
+        const cart = await Cart.findOne({ userId: req.params.userId }).populate('items.product');
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
@@ -64,7 +64,8 @@ export const updateItemQuantity = async (req, res) => {
     const { quantity } = req.body;
 
     try {
-        const cart = await Cart.findOne({ userId: req.params.userId });
+        const cart = await Cart.findOne({ userId: req.params.userId }).populate('items.product');
+
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
