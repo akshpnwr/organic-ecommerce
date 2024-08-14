@@ -6,7 +6,7 @@ export const getOrders = async (req, res) => {
 
     try {
         // Fetch all orders for the user
-        const orders = await Order.find({ userId: mongoose.Types.ObjectId(userId) });
+        const orders = await Order.find({ userId });
 
         if (!orders.length) {
             return res.status(404).json({ message: 'No orders found for this user' });

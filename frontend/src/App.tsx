@@ -11,9 +11,10 @@ import Login from "./pages/Login";
 import SignUpSuccess from "./pages/Sign-up-success";
 import useAuthUser from "./zustand/useAuthUser";
 import { useEffect } from "react";
+import Account from "./pages/Account";
 
 function App() {
-  const { setUser, setAuthLoading } = useAuthUser();
+  const { setUser, setAuthLoading, user } = useAuthUser();
 
   useEffect(() => {
     setAuthLoading(true);
@@ -32,7 +33,8 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/products/:id" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart" element={user ? <Cart /> : <Login />} />
+        <Route path="/account" element={user ? <Account /> : <Login />} />
       </Route>
       <Route path="/sign-up-success" element={<SignUpSuccess />} />
       <Route path="/signup" element={<SignUp />} />

@@ -36,3 +36,18 @@ export interface CartState {
   clearCart: () => void;
   subTotal: number;
 }
+
+export interface Order {
+  _id: string;
+  number: string;
+  city: string;
+  address: string;
+  email: string;
+  name: string;
+  postalCode: string;
+  createdAt: Date;
+  total: number;
+  userId: string;
+  // status: "Delivered" | "Processing" | "Cancelled";
+  items: CartItemType[];
+}

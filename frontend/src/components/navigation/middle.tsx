@@ -1,7 +1,7 @@
 import * as React from "react";
 import logo from "../../assets/images/logo.svg";
 import search from "../../assets/images/search.svg";
-import { Heart, ShoppingCart } from "lucide-react";
+import { CircleUser, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import useCart from "@/zustand/useCart";
 
@@ -89,7 +89,10 @@ const Middle: React.FC<MiddleProps> = ({ setShowNavLinks }) => {
       </div>
       <SearchArea placeholder="Search" />
       <div className="flex items-center justify-between md:self-stretch my-auto">
-        <Heart strokeWidth="1.4px" className="w-7 h-w-7 mr-3" />
+        {/* <Heart strokeWidth="1.4px" className="w-7 h-w-7 mr-3" /> */}
+        <Link to="/account">
+          <CircleUser strokeWidth="1.4px" className="w-7 h-w-7 mr-3" />
+        </Link>
         <div className="flex items-center gap-3 pl-3 border-l-2">
           <Link to="/cart">
             <ShoppingCart strokeWidth="1.4px" className="w-7 h-w-7" />
@@ -100,7 +103,7 @@ const Middle: React.FC<MiddleProps> = ({ setShowNavLinks }) => {
               Shopping cart:{" "}
             </div>
             <div className="mt-2 text-sm font-medium leading-4 text-zinc-900">
-              ${subTotal}
+              ${subTotal.toFixed(2)}
             </div>
           </div>
         </div>
