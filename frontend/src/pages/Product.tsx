@@ -5,7 +5,7 @@ import appleImg2 from "../assets/images/products/apple-2.jpg";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useGetProduct from "@/hooks/useGetProduct";
 import { RotateLoader } from "react-spinners";
 import Rating from "@/components/UI/rating";
@@ -13,6 +13,7 @@ import { Button } from "@/components/UI/button";
 import { Toaster } from "react-hot-toast";
 import useAddToCart from "@/hooks/useAddToCart";
 import useAuthUser from "@/zustand/useAuthUser";
+import useCart from "@/zustand/useCart";
 
 export default function Product() {
   const [selectedImg, setSelectedImg] = useState(appleImg1);
@@ -22,6 +23,11 @@ export default function Product() {
   const { addToCart } = useAddToCart();
   const { user } = useAuthUser();
   const navigate = useNavigate();
+  const { items } = useCart();
+  // const isAddedToCart = items.includes(item);
+  const isAddedToCart = items.find((item) => item.product._id === product?._id)
+    ? true
+    : false;
 
   useEffect(() => {
     if (!product) return;
@@ -167,12 +173,23 @@ export default function Product() {
             <Button className="group border-[1.6px] border-red-400 bg-white rounded-lg text-xl font-medium hover:bg-red-400">
               <Heart className="text-red-400 group-hover:text-white" />
             </Button>
-            <Button
-              onClick={addToCartHandler}
-              className="bg-green-600 rounded-lg text-xl font-medium hover:bg-green-700"
-            >
-              <ShoppingCart />
-            </Button>
+            {isAddedToCart ? (
+              <Link
+                to="/cart"
+                className="bg-green-600 flex items-center justify-center text-white gap-2 rounded-lg text-base font-medium hover:bg-green-700"
+              >
+                <span>Go to cart</span>
+                <ShoppingCart />
+              </Link>
+            ) : (
+              <Button
+                onClick={addToCartHandler}
+                className="bg-green-600 flex gap-2 rounded-lg text-base font-medium hover:bg-green-700"
+              >
+                <span>Add to cart</span>
+                <ShoppingCart />
+              </Button>
+            )}
           </div>
           <Separator className="my-4" />
           <div className="grid gap-4">
