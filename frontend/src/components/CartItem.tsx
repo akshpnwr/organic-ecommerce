@@ -12,18 +12,18 @@ const CartItem: React.FC<CartItemType> = ({ product, quantity }) => {
 
   const incrementQuantityHandler = () => {
     if (!user) return;
-    updateQuantity(user._id, product._id, quantity + 1);
+    updateQuantity(product._id, quantity + 1);
   };
 
   const decrementQuantityHandler = () => {
     if (!user) return;
     if (quantity === 1) return;
-    updateQuantity(user._id, product._id, quantity - 1);
+    updateQuantity(product._id, quantity - 1);
   };
 
   const removeItemHandler = () => {
     if (!user) return;
-    removeItem(user._id, product._id);
+    removeItem(product._id);
   };
 
   return (

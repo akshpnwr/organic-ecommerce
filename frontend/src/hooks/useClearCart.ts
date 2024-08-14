@@ -1,18 +1,18 @@
+import useAuthUser from "@/zustand/useAuthUser";
 import useCart from "@/zustand/useCart";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const useClearCart = (userId: string) => {
+const useClearCart = () => {
   const [loading, setLoading] = useState(false);
   const { setCart } = useCart();
-
+  const { user } = useAuthUser();
   const clearCart = async () => {
-    if (userId === "") {
-      return;
-    }
+    if (!user) return;
+
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/cart/${userId}/clear`, {
+      const res = await fetch(`/api/v1/cart/${user._id}/clear`, {
         method: "DELETE",
       });
       if (!res.ok) {

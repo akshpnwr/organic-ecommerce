@@ -6,7 +6,7 @@ import useCart from "@/zustand/useCart";
 import useGetCartItems from "@/hooks/useGetCartItems";
 import useAuthUser from "@/zustand/useAuthUser";
 import { RotateLoader } from "react-spinners";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useClearCart from "@/hooks/useClearCart";
 
@@ -16,7 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/UI/alert-dialog";
-import { OrderForm } from "@/components/OrderForm";
+import OrderForm from "@/components/OrderForm";
 import {
   AlertDialogDescription,
   AlertDialogTitle,
@@ -24,9 +24,9 @@ import {
 
 export default function Cart() {
   const { user, authLoading } = useAuthUser();
-  const userId = user?._id || "";
-  const { loading } = useGetCartItems(userId);
-  const { clearCart } = useClearCart(userId);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { loading } = useGetCartItems();
+  const { clearCart } = useClearCart();
   const { items, subTotal } = useCart();
   const navigate = useNavigate();
   const isEmpty = loading === false && items.length === 0;
@@ -104,9 +104,12 @@ export default function Cart() {
               </div>
 
               <div className="grid gap-2">
-                <AlertDialog>
+                <AlertDialog open={isModalOpen}>
                   <AlertDialogTrigger asChild>
-                    <Button className="w-full bg-green-600 hover:bg-green-700">
+                    <Button
+                      onClick={() => setIsModalOpen(true)}
+                      className="w-full bg-green-600 hover:bg-green-700"
+                    >
                       Proceed to Checkout
                     </Button>
                   </AlertDialogTrigger>
@@ -115,7 +118,7 @@ export default function Cart() {
                       <AlertDialogTitle className="hidden"></AlertDialogTitle>
                       <AlertDialogDescription></AlertDialogDescription>
                     </AlertDialogHeader>
-                    <OrderForm />
+                    <OrderForm closeModal={() => setIsModalOpen(false)} />
                   </AlertDialogContent>
                 </AlertDialog>
                 <Link to="/shop">

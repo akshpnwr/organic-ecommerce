@@ -15,6 +15,7 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/UI/alert-dialog";
+import useOrder from "@/hooks/useOrder";
 
 const formSchema = z.object({
   name: z
@@ -41,8 +42,8 @@ const formSchema = z.object({
   }),
 });
 
-export function OrderForm() {
-  // 1. Define your form.
+const OrderForm = ({ closeModal }: { closeModal: () => void }) => {
+  const { order } = useOrder();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,10 +55,10 @@ export function OrderForm() {
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await order(values);
+    closeModal();
+  };
 
   return (
     <Form {...form}>
@@ -128,7 +129,9 @@ export function OrderForm() {
           )}
         />
         <AlertDialogFooter>
-          <AlertDialogCancel className="min-w-20">Close</AlertDialogCancel>
+          <AlertDialogCancel onClick={closeModal} className="min-w-20">
+            Close
+          </AlertDialogCancel>
           <Button
             type="submit"
             className="min-w-20 bg-green-600 hover:bg-green-700"
@@ -139,4 +142,6 @@ export function OrderForm() {
       </form>
     </Form>
   );
-}
+};
+
+export default OrderForm;

@@ -1,3 +1,4 @@
+import useAuthUser from "@/zustand/useAuthUser";
 import useCart from "@/zustand/useCart";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -5,18 +6,14 @@ import toast from "react-hot-toast";
 const useUpdateQuantity = () => {
   const [loading, setLoading] = useState(false);
   const { setCart } = useCart();
+  const { user } = useAuthUser();
 
-  const updateQuantity = async (
-    userId: string,
-    productId: string,
-    quantity: number
-  ) => {
-    if (userId === "") {
-      return;
-    }
+  const updateQuantity = async (productId: string, quantity: number) => {
+    if (!user) return;
+
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/cart/${userId}/update/${productId}`, {
+      const res = await fetch(`/api/v1/cart/${user._id}/update/${productId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

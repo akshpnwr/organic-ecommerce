@@ -11,16 +11,16 @@ import { RotateLoader } from "react-spinners";
 import Rating from "@/components/UI/rating";
 import { Button } from "@/components/UI/button";
 import { Toaster } from "react-hot-toast";
-import useAuthUser from "@/zustand/useAuthUser";
 import useAddToCart from "@/hooks/useAddToCart";
+import useAuthUser from "@/zustand/useAuthUser";
 
 export default function Product() {
   const [selectedImg, setSelectedImg] = useState(appleImg1);
   const params = useParams();
   const id = params.id as string;
   const { loading, product } = useGetProduct(id);
+  const { addToCart } = useAddToCart();
   const { user } = useAuthUser();
-  const { addToCart } = useAddToCart(user?._id || "");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,10 +38,7 @@ export default function Product() {
   }
 
   const addToCartHandler = () => {
-    console.log(product);
-
     if (!user) return navigate("/login");
-
     addToCart(product, 1);
   };
 

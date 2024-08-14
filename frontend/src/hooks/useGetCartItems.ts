@@ -1,17 +1,18 @@
+import useAuthUser from "@/zustand/useAuthUser";
 import useCart from "@/zustand/useCart";
 import { useEffect, useState } from "react";
 
-const useGetCartItems = (userId: string) => {
+const useGetCartItems = () => {
   const [loading, setLoading] = useState(true);
   const { setCart } = useCart();
+  const { user } = useAuthUser();
 
   useEffect(() => {
     const fetchCartItems = async () => {
-      if (userId === "") {
-        return;
-      }
+      if (!user) return;
+
       try {
-        const res = await fetch(`/api/v1/cart/${userId}`);
+        const res = await fetch(`/api/v1/cart/${user._id}`);
         if (!res.ok) {
           throw new Error("Failed to fetch cart data");
         }
@@ -25,7 +26,7 @@ const useGetCartItems = (userId: string) => {
       }
     };
     fetchCartItems();
-  }, [setCart, setLoading, userId]);
+  }, [setCart, setLoading, user]);
 
   return { loading };
 };

@@ -1,31 +1,38 @@
-import { Product } from "@/types";
 import useAuthUser from "@/zustand/useAuthUser";
-import useCart from "@/zustand/useCart";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useClearCart from "./useClearCart";
 
-const useAddToCart = () => {
+type OrderFormDataType = {
+  name: string;
+  email: string;
+  address: string;
+  city: string;
+  postalCode: string;
+};
+
+const useOrder = () => {
   const [loading, setLoading] = useState(false);
-  const { addToCart: add } = useCart();
   const { user } = useAuthUser();
+  const { clearCart } = useClearCart();
 
-  const addToCart = async (product: Product, quantity: number) => {
-    if (!user) return;
+  const order = async (formData: OrderFormDataType) => {
+    if (user === null) return;
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/cart/${user._id}/add`, {
+      const res = await fetch(`/api/v1/orders/${user._id}/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ productId: product._id, quantity }),
+        body: JSON.stringify(formData),
       });
       if (!res.ok) {
         throw new Error("Failed to fetch cart data");
       }
-      add({ product, quantity: 1 });
-      toast.success(`${product.name} added to cart`);
+      toast.success("Order placed successfully");
+      await clearCart();
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -35,7 +42,7 @@ const useAddToCart = () => {
     }
   };
 
-  return { loading, addToCart };
+  return { loading, order };
 };
 
-export default useAddToCart;
+export default useOrder;
