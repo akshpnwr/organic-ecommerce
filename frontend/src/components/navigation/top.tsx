@@ -24,6 +24,10 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ label, imgUrl }) => {
 
 const Top: React.FC = () => {
   const { user, logout } = useAuthUser();
+  const logoutHandler = () => {
+    localStorage.clear();
+    logout();
+  };
   const dropdownItems = [
     {
       label: "Eng",
@@ -84,7 +88,7 @@ const Top: React.FC = () => {
           )}
           {user && (
             <div
-              onClick={logout}
+              onClick={logoutHandler}
               className="cursor-pointer text-gray-800 font-medium border-b hover:border-b-green-600 hover:text-green-600 "
             >
               Log out
